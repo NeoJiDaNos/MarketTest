@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог товаров - TechShop</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-shopping-bag"></i>
+                TechShop
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Главная</a></li>
+                <li><a href="catalog.html" class="nav-link">Каталог</a></li>
+                <li><a href="index.html#about" class="nav-link">О нас</a></li>
+                <li><a href="index.html#contact" class="nav-link">Контакты</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" title="Переключить тему">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+                <button class="cart-btn" id="cartBtn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Поисковая строка -->
+    <div class="search-container" id="searchContainer">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="Поиск товаров...">
+            <button class="search-submit"><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+
+    <!-- Заголовок каталога -->
+    <section class="catalog-header">
+        <div class="container">
+            <h1>Каталог товаров</h1>
+            <p>Найдите идеальный товар для себя</p>
+        </div>
+    </section>
+
+    <!-- Фильтры и каталог -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-wrapper">
+                <!-- Фильтры слева -->
+                <aside class="filters-sidebar">
+                    <div class="filter-group">
+                        <h3 onclick="toggleFilterGroup(this)">📁 Категория</h3>
+                        <div class="filter-content">
+                            <label><input type="checkbox" value="all" class="category-filter" checked> Все товары</label>
+                            <label><input type="checkbox" value="headphones" class="category-filter"> Наушники</label>
+                            <label><input type="checkbox" value="phones" class="category-filter"> Смартфоны</label>
+                            <label><input type="checkbox" value="tablets" class="category-filter"> Планшеты</label>
+                            <label><input type="checkbox" value="accessories" class="category-filter"> Аксессуары</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3 onclick="toggleFilterGroup(this)">💰 Цена</h3>
+                        <div class="filter-content">
+                            <input type="range" min="0" max="100000" value="100000" class="price-filter" id="priceFilter">
+                            <p>До <strong id="priceValue">100 000</strong> ₽</p>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3 onclick="toggleFilterGroup(this)">⭐ Рейтинг</h3>
+                        <div class="filter-content">
+                            <label><input type="checkbox" class="rating-filter" value="5"> 5 звёзд</label>
+                            <label><input type="checkbox" class="rating-filter" value="4"> 4+ звезды</label>
+                            <label><input type="checkbox" class="rating-filter" value="3"> 3+ звезды</label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary btn-reset-filters" onclick="resetFilters()">🔄 Очистить</button>
+                </aside>
+
+                <!-- Товары -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Товары будут загружены здесь через JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Корзина -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Ваша корзина</h2>
+                <button class="close-btn" onclick="closeCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <p class="empty-cart">Корзина пуста</p>
+            </div>
+            <div class="cart-summary" id="cartSummary" style="display: none;">
+                <div class="summary-row">
+                    <span>Всего товаров:</span>
+                    <span id="totalItems">0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Подитог:</span>
+                    <span id="subtotal">0 ₽</span>
+                </div>
+                <div class="summary-row">
+                    <span>Доставка:</span>
+                    <span>350 ₽</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Итого:</span>
+                    <span id="total">0 ₽</span>
+                </div>
+                <button class="btn btn-primary" onclick="checkout()">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для товара -->
+    <div class="product-modal" id="productModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeProductModal()">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Информация о товаре будет здесь -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>О магазине</h4>
+                <ul>
+                    <li><a href="index.html#about">О нас</a></li>
+                    <li><a href="index.html#contact">Контакты</a></li>
+                    <li><a href="#">Блог</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Покупателям</h4>
+                <ul>
+                    <li><a href="#">Как купить</a></li>
+                    <li><a href="#">Доставка</a></li>
+                    <li><a href="#">Возврат</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Социальные сети</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 TechShop. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

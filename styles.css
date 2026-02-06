@@ -1395,7 +1395,7 @@ body.dark-theme .modal-content .close-btn:hover {
 }
 
 .modal-specs {
-    background: var(--text-primary);
+    background: var(--bg-primary);
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -1636,4 +1636,5 @@ body.dark-theme .modal-content .close-btn:hover {
         font-size: 14px;
     }
 }
+
 
